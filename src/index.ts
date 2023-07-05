@@ -1,7 +1,5 @@
-import app from "./app";
+import { startApolloServer } from "./app";
+import { typeDefs } from "./graphql/typDefs";
+import { resolvers } from "./graphql/resolvers";
 
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-  console.log("Server on port", port);
-});
+startApolloServer(typeDefs, resolvers);

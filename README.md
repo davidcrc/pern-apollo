@@ -41,3 +41,22 @@ yarn add dotenv
 yarn add -D @types/dotenv
 
 ```
+
+### add nodemon
+
+```bash
+yarn add nodemon
+```
+
+### add cors
+
+```bash
+yarn add cors
+yarn add -D @types/cors
+```
+
+### Add Apollo
+
+```bash
+yarn add @apollo/server graphql graphql-tag
+```
