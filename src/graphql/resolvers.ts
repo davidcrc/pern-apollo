@@ -1,7 +1,8 @@
-import { Project } from "@prisma/client";
 import { prisma } from "../db";
+import { Resolvers } from "../generated/graphql";
 
-export const resolvers = {
+export const resolvers: Resolvers = {
+  // export const resolvers = {
   Query: {
     hello: async (_parent: any, args: any) => {
       // return await prisma.post.findMany();
@@ -10,7 +11,7 @@ export const resolvers = {
     },
   },
   Mutation: {
-    createProject: async (_: any, { name, description }: Project) => {
+    createProject: async (_: any, { name, description }) => {
       console.log("args", name, description);
 
       try {

@@ -7,9 +7,9 @@ import http from "http";
 import bodyParser from "body-parser";
 import { DocumentNode } from "graphql";
 import { resolvers as rs } from "./graphql/resolvers";
+import { PORT } from "./const";
 
 dotenv.config();
-const port = process.env.PORT || 3000;
 
 // TODO: up[date this types]
 export async function startApolloServer(
@@ -32,8 +32,8 @@ export async function startApolloServer(
   app.use("/graphql", cors(), bodyParser.json(), expressMiddleware(server));
 
   await new Promise<void>((resolve) =>
-    httpServer.listen({ port: 4000 }, resolve)
+    httpServer.listen({ port: PORT }, () => resolve())
   );
 
-  console.log(`🚀 Server ready at http://localhost:${port}`);
+  console.log(`🚀 Server ready at http://localhost:${PORT}`);
 }

@@ -79,3 +79,15 @@ npx prisma migrate dev --name init
     "reset-db": "npx prisma migrate reset --force",
 }
 ```
+
+### Add codegen - follow default options
+
+```bash
+yarn add @graphql-codegen/cli
+```
+
+- Add scalar if you need
+
+```bash
+yarn add graphql-scalars
+```
