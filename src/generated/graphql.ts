@@ -21,6 +21,7 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   createProject?: Maybe<Project>;
+  createTask?: Maybe<Task>;
 };
 
 
@@ -29,18 +30,37 @@ export type MutationCreateProjectArgs = {
   name: Scalars['String']['input'];
 };
 
+
+export type MutationCreateTaskArgs = {
+  projectId: Scalars['ID']['input'];
+  title: Scalars['String']['input'];
+};
+
 export type Project = {
   __typename?: 'Project';
-  createdAt?: Maybe<Scalars['Date']['output']>;
+  createdAt: Scalars['Date']['output'];
   description?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['Date']['output']>;
-  uuid?: Maybe<Scalars['ID']['output']>;
+  name: Scalars['String']['output'];
+  tasks?: Maybe<Array<Maybe<Task>>>;
+  updatedAt: Scalars['Date']['output'];
+  uuid: Scalars['ID']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
   hello?: Maybe<Scalars['String']['output']>;
+  projects?: Maybe<Array<Maybe<Project>>>;
+  tasks?: Maybe<Array<Maybe<Task>>>;
+};
+
+export type Task = {
+  __typename?: 'Task';
+  Project?: Maybe<Project>;
+  createdAt: Scalars['Date']['output'];
+  projectId: Scalars['ID']['output'];
+  title: Scalars['String']['output'];
+  updatedAt: Scalars['Date']['output'];
+  uuid: Scalars['ID']['output'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -122,6 +142,7 @@ export type ResolversTypes = ResolversObject<{
   Project: ResolverTypeWrapper<Project>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  Task: ResolverTypeWrapper<Task>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -133,6 +154,7 @@ export type ResolversParentTypes = ResolversObject<{
   Project: Project;
   Query: {};
   String: Scalars['String']['output'];
+  Task: Task;
 }>;
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
@@ -141,19 +163,33 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationCreateProjectArgs, 'name'>>;
+  createTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationCreateTaskArgs, 'projectId' | 'title'>>;
 }>;
 
 export type ProjectResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = ResolversObject<{
-  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  uuid?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tasks?: Resolver<Maybe<Array<Maybe<ResolversTypes['Task']>>>, ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  uuid?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['Project']>>>, ParentType, ContextType>;
+  tasks?: Resolver<Maybe<Array<Maybe<ResolversTypes['Task']>>>, ParentType, ContextType>;
+}>;
+
+export type TaskResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Task'] = ResolversParentTypes['Task']> = ResolversObject<{
+  Project?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  projectId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  uuid?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type Resolvers<ContextType = Context> = ResolversObject<{
@@ -161,5 +197,6 @@ export type Resolvers<ContextType = Context> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>;
   Project?: ProjectResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Task?: TaskResolvers<ContextType>;
 }>;
 

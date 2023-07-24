@@ -17,4 +17,19 @@ model Project {
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  tasks       Task[]
+
+  @@index(fields: [uuid])
+}
+
+model Task {
+  id        Int      @id @default(autoincrement())
+  uuid      String   @unique @default(uuid())
+  title     String
+  projectId String
+  Project   Project  @relation(fields: [projectId], references: [uuid])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index(fields: [uuid])
 }

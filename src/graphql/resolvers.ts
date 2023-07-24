@@ -9,6 +9,20 @@ export const resolvers: Resolvers = {
 
       return "Hola!";
     },
+    projects: async () => {
+      return await prisma.project.findMany({
+        include: {
+          tasks: true,
+        },
+      });
+    },
+    tasks: async () => {
+      return await prisma.task.findMany({
+        include: {
+          Project: true,
+        },
+      });
+    },
   },
   Mutation: {
     createProject: async (_: any, { name, description }) => {
@@ -24,6 +38,21 @@ export const resolvers: Resolvers = {
         // Manejar el error de alguna manera, como mostrar un mensaje de error o realizar una acción específica.
         console.error("Error al crear el proyecto:", error);
         throw new Error("No se pudo crear el proyecto.");
+      }
+    },
+    createTask: async (_: any, { title, projectId }) => {
+      try {
+        const newTask = await prisma.task.create({
+          data: { title, projectId },
+          include: {
+            Project: true,
+          },
+        });
+
+        return newTask;
+      } catch (error) {
+        console.error("Error al crear las tarea:", error);
+        throw new Error("No se pudo crear la tarea.");
       }
     },
   },
