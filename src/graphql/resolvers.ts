@@ -85,6 +85,7 @@ export const resolvers: Resolvers = {
 
         return deletedProject;
       } catch (error) {
+        // TODO: handle this various erros
         throw new Error("Project not found");
       }
     },
@@ -98,6 +99,48 @@ export const resolvers: Resolvers = {
 
         return deletedTask;
       } catch (error) {
+        // TODO: handle this various erros
+
+        throw new Error("Task not found");
+      }
+    },
+    updateProject: async (_: any, args) => {
+      const { projectId, ...rest } = args;
+
+      try {
+        const updatedProject = await prisma.project.update({
+          where: {
+            uuid: projectId,
+          },
+          data: {
+            ...rest,
+          },
+        });
+
+        return updatedProject;
+      } catch (error) {
+        // TODO: handle this various erros
+
+        throw new Error("Project not found");
+      }
+    },
+    updateTask: async (_: any, args) => {
+      const { taskId, ...rest } = args;
+
+      try {
+        const updatedTask = await prisma.task.update({
+          where: {
+            uuid: taskId,
+          },
+          data: {
+            ...rest,
+          },
+        });
+
+        return updatedTask;
+      } catch (error) {
+        // TODO: handle this various erros
+
         throw new Error("Task not found");
       }
     },

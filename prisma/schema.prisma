@@ -27,7 +27,7 @@ model Task {
   uuid      String   @unique @default(uuid())
   title     String
   projectId String
-  Project   Project  @relation(fields: [projectId], references: [uuid])
+  Project   Project  @relation(fields: [projectId], references: [uuid], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

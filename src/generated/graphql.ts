@@ -24,6 +24,8 @@ export type Mutation = {
   createTask?: Maybe<Task>;
   deleteProject?: Maybe<Project>;
   deleteTask?: Maybe<Task>;
+  updateProject?: Maybe<Project>;
+  updateTask?: Maybe<Task>;
 };
 
 
@@ -46,6 +48,20 @@ export type MutationDeleteProjectArgs = {
 
 export type MutationDeleteTaskArgs = {
   taskId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateProjectArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  projectId: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateTaskArgs = {
+  projectId: Scalars['ID']['input'];
+  taskId: Scalars['ID']['input'];
+  title: Scalars['String']['input'];
 };
 
 export type Project = {
@@ -190,6 +206,8 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   createTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationCreateTaskArgs, 'projectId' | 'title'>>;
   deleteProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationDeleteProjectArgs, 'projectId'>>;
   deleteTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationDeleteTaskArgs, 'taskId'>>;
+  updateProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationUpdateProjectArgs, 'name' | 'projectId'>>;
+  updateTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationUpdateTaskArgs, 'projectId' | 'taskId' | 'title'>>;
 }>;
 
 export type ProjectResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = ResolversObject<{
