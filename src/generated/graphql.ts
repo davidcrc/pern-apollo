@@ -22,6 +22,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   createProject?: Maybe<Project>;
   createTask?: Maybe<Task>;
+  deleteProject?: Maybe<Project>;
+  deleteTask?: Maybe<Task>;
 };
 
 
@@ -34,6 +36,16 @@ export type MutationCreateProjectArgs = {
 export type MutationCreateTaskArgs = {
   projectId: Scalars['ID']['input'];
   title: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteProjectArgs = {
+  projectId: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteTaskArgs = {
+  taskId: Scalars['ID']['input'];
 };
 
 export type Project = {
@@ -49,8 +61,20 @@ export type Project = {
 export type Query = {
   __typename?: 'Query';
   hello?: Maybe<Scalars['String']['output']>;
+  project?: Maybe<Project>;
   projects?: Maybe<Array<Maybe<Project>>>;
+  task?: Maybe<Task>;
   tasks?: Maybe<Array<Maybe<Task>>>;
+};
+
+
+export type QueryProjectArgs = {
+  projectId: Scalars['ID']['input'];
+};
+
+
+export type QueryTaskArgs = {
+  taskId: Scalars['ID']['input'];
 };
 
 export type Task = {
@@ -164,6 +188,8 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationCreateProjectArgs, 'name'>>;
   createTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationCreateTaskArgs, 'projectId' | 'title'>>;
+  deleteProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationDeleteProjectArgs, 'projectId'>>;
+  deleteTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationDeleteTaskArgs, 'taskId'>>;
 }>;
 
 export type ProjectResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = ResolversObject<{
@@ -178,7 +204,9 @@ export type ProjectResolvers<ContextType = Context, ParentType extends Resolvers
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  project?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<QueryProjectArgs, 'projectId'>>;
   projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['Project']>>>, ParentType, ContextType>;
+  task?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<QueryTaskArgs, 'taskId'>>;
   tasks?: Resolver<Maybe<Array<Maybe<ResolversTypes['Task']>>>, ParentType, ContextType>;
 }>;
 

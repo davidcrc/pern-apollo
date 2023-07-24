@@ -16,8 +16,28 @@ export const resolvers: Resolvers = {
         },
       });
     },
+    project: async (_, { projectId }) => {
+      return await prisma.project.findFirstOrThrow({
+        where: {
+          uuid: projectId,
+        },
+        include: {
+          tasks: true,
+        },
+      });
+    },
     tasks: async () => {
       return await prisma.task.findMany({
+        include: {
+          Project: true,
+        },
+      });
+    },
+    task: async (_, { taskId }) => {
+      return await prisma.task.findFirstOrThrow({
+        where: {
+          uuid: taskId,
+        },
         include: {
           Project: true,
         },
@@ -53,6 +73,32 @@ export const resolvers: Resolvers = {
       } catch (error) {
         console.error("Error al crear las tarea:", error);
         throw new Error("No se pudo crear la tarea.");
+      }
+    },
+    deleteProject: async (_: any, { projectId }) => {
+      try {
+        const deletedProject = await prisma.project.delete({
+          where: {
+            uuid: projectId,
+          },
+        });
+
+        return deletedProject;
+      } catch (error) {
+        throw new Error("Project not found");
+      }
+    },
+    deleteTask: async (_: any, { taskId }) => {
+      try {
+        const deletedTask = await prisma.task.delete({
+          where: {
+            uuid: taskId,
+          },
+        });
+
+        return deletedTask;
+      } catch (error) {
+        throw new Error("Task not found");
       }
     },
   },
