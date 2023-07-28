@@ -9,37 +9,19 @@ export const resolvers: Resolvers = {
 
       return "Hola!";
     },
-    projects: async () => {
-      return await prisma.project.findMany({
-        include: {
-          tasks: true,
-        },
-      });
-    },
+    projects: async () => await prisma.project.findMany(),
     project: async (_, { projectId }) => {
       return await prisma.project.findFirstOrThrow({
         where: {
           uuid: projectId,
         },
-        include: {
-          tasks: true,
-        },
       });
     },
-    tasks: async () => {
-      return await prisma.task.findMany({
-        include: {
-          Project: true,
-        },
-      });
-    },
+    tasks: async () => await prisma.task.findMany(),
     task: async (_, { taskId }) => {
       return await prisma.task.findFirstOrThrow({
         where: {
           uuid: taskId,
-        },
-        include: {
-          Project: true,
         },
       });
     },
@@ -144,5 +126,22 @@ export const resolvers: Resolvers = {
         throw new Error("Task not found");
       }
     },
+  },
+  // Relations graphql: so I removed include: {}, from Queries and Mutations
+  Project: {
+    tasks: async (parent) =>
+      await prisma.task.findMany({
+        where: {
+          projectId: parent.uuid,
+        },
+      }),
+  },
+  Task: {
+    Project: async (parent) =>
+      await prisma.project.findUnique({
+        where: {
+          uuid: parent.projectId,
+        },
+      }),
   },
 };
