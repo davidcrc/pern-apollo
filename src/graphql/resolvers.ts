@@ -9,7 +9,12 @@ export const resolvers: Resolvers = {
 
       return "Hola!";
     },
-    projects: async () => await prisma.project.findMany(),
+    projects: async () =>
+      await prisma.project.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
     project: async (_, { projectId }) => {
       return await prisma.project.findFirstOrThrow({
         where: {
@@ -133,6 +138,9 @@ export const resolvers: Resolvers = {
       await prisma.task.findMany({
         where: {
           projectId: parent.uuid,
+        },
+        orderBy: {
+          createdAt: "desc",
         },
       }),
   },
